@@ -1,0 +1,206 @@
+/* Reset & Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    background-color: #121214;
+    color: #e4e4e7;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 2rem;
+    overflow-x: hidden;
+    position: relative;
+}
+
+/* Blur & Overlay System */
+.blurred {
+    filter: blur(12px);
+    pointer-events: none;
+    transition: filter 1.5s ease;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(18, 18, 20, 0.8);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    transition: opacity 1s ease, visibility 1s ease;
+}
+
+.overlay-card {
+    background: #18181b;
+    border: 1px solid #27272a;
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    max-width: 400px;
+    width: 90%;
+}
+
+.gift-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: bounce 2s infinite ease-in-out;
+}
+
+.overlay-card h2 {
+    font-size: 1.6rem;
+    margin-bottom: 0.5rem;
+}
+
+.overlay-card p {
+    color: #a1a1aa;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+}
+
+.cta-button {
+    background: linear-gradient(135deg, #f472b6, #db2777);
+    color: #fff;
+    border: none;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(244, 114, 182, 0.4);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(244, 114, 182, 0.6);
+}
+
+/* Main Container Layout */
+.container {
+    max-width: 800px;
+    width: 100%;
+    text-align: center;
+    transition: filter 1s ease;
+}
+
+.hero-section {
+    margin-bottom: 3rem;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.highlight {
+    color: #f472b6;
+}
+
+.subtitle {
+    color: #a1a1aa;
+    font-size: 1.1rem;
+}
+
+.card {
+    background: #18181b;
+    border: 1px solid #27272a;
+    border-radius: 16px;
+    padding: 2.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 2.5rem;
+    align-items: center;
+    text-align: left;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.image-container {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.profile-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: grayscale(10%);
+    transition: transform 0.5s ease;
+}
+
+.text-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #f472b6;
+}
+
+.letter-text {
+    line-height: 1.6;
+    color: #d4d4d8;
+    font-size: 1.05rem;
+    min-height: 150px;
+}
+
+/* Floating Animations Environment */
+#floating-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 50;
+    overflow: hidden;
+}
+
+.floating-element {
+    position: absolute;
+    bottom: -50px;
+    font-size: 1.5rem;
+    opacity: 0.75;
+    animation: floatUp 6s linear infinite;
+}
+
+/* Keyframe Animations */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.fade-in { animation: fadeInSmooth 1.2s ease forwards; }
+.fade-in-delayed { opacity: 0; animation: fadeInSmooth 1.2s ease 0.6s forwards; }
+
+@keyframes fadeInSmooth {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 680px) {
+    .card { grid-template-columns: 1fr; padding: 1.5rem; gap: 1.5rem; }
+}
