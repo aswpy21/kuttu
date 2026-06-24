@@ -2,8 +2,8 @@ const birthdayMessage = "Happy Birthday! Thank you for always bringing so much e
 
 const speed = 40; 
 let index = 0;
+let isUnlocked = false;
 
-// Typewriter Functionality
 function typeWriter() {
     if (index < birthdayMessage.length) {
         document.getElementById("birthday-letter").innerHTML += birthdayMessage.charAt(index);
@@ -12,48 +12,64 @@ function typeWriter() {
     }
 }
 
-// Floaties (Hearts, Stars, Balloons) Generator
+// Floaties (Balloons & Hearts) Generator
 function createFloatingElement() {
-    const container = document.getElementById("floating-container");
-    const elements = ['🎈', '❤️', '✨', '🌸', '🤍'];
+    const env = document.getElementById("animation-env");
+    const symbols = ['🎈', '❤️', '🌸', '🤍', '✨'];
     
     const span = document.createElement("span");
     span.classList.add("floating-element");
-    span.innerText = elements[Math.floor(Math.random() * elements.length)];
+    span.innerText = symbols[Math.floor(Math.random() * symbols.length)];
     
-    // Randomize initial horizontal position and size scaling
     span.style.left = Math.random() * 100 + "vw";
-    span.style.fontSize = Math.random() * 1.5 + 1 + "rem";
+    span.style.fontSize = Math.random() * 1.5 + 12 + "px"; // Solid sizing for mobile
     
-    // Randomize speed duration of individual elements
-    const duration = Math.random() * 3 + 4; // 4s to 7s
+    const duration = Math.random() * 3 + 5; // 5s to 8s loop
     span.style.animationDuration = duration + "s";
     
-    container.appendChild(span);
-    
-    // Clean up memory by deleting element after completion
-    setTimeout(() => {
-        span.remove();
-    }, duration * 1000);
+    env.appendChild(span);
+    setTimeout(() => span.remove(), duration * 1000);
 }
 
-// Master Initialization Event when user clicks "Open Surprise"
+// Touch/Click Sparkle Trail Generator
+function createTouchSparkle(x, y) {
+    if (!isUnlocked) return; // Don't trigger sparkles while overlay is active
+    
+    const env = document.getElementById("animation-env");
+    const sparkles = ['✨', '🤍', '🌸', '💖'];
+    
+    const particle = document.createElement("span");
+    particle.classList.add("sparkle-trail");
+    particle.innerText = sparkles[Math.floor(Math.random() * sparkles.length)];
+    
+    particle.style.left = x + "px";
+    particle.style.top = y + "px";
+    
+    env.appendChild(particle);
+    setTimeout(() => particle.remove(), 800);
+}
+
+// Listen to both Desktop clicks and Mobile touch drags
+window.addEventListener('mousemove', (e) => createTouchSparkle(e.clientX, e.clientY));
+window.addEventListener('touchmove', (e) => {
+    if(e.touches.length > 0) {
+        createTouchSparkle(e.touches[0].clientX, e.touches[0].clientY);
+    }
+});
+
+// Unlock Site Actions
 document.getElementById("open-btn").addEventListener("click", () => {
-    // 1. Hide the entry overlay smoothly
+    isUnlocked = true;
+    
     const overlay = document.getElementById("surprise-overlay");
     overlay.style.opacity = "0";
-    setTimeout(() => overlay.style.visibility = "hidden", 1000);
+    setTimeout(() => overlay.style.visibility = "hidden", 1200);
     
-    // 2. Remove blur layout filter from main content
     document.getElementById("main-content").classList.remove("blurred");
     
-    // 3. Fire up background music safely
     const music = document.getElementById("bg-music");
-    music.play().catch(error => console.log("Audio playback waiting for permission:", error));
+    music.play().catch(err => console.log("Audio skipped or blocked:", err));
     
-    // 4. Start the letter typing animation
-    setTimeout(typeWriter, 500);
-    
-    // 5. Continuously launch animated floating elements
-    setInterval(createFloatingElement, 400);
+    setTimeout(typeWriter, 600);
+    setInterval(createFloatingElement, 350);
 });
