@@ -73,3 +73,10 @@ document.getElementById("open-btn").addEventListener("click", () => {
     setTimeout(typeWriter, 600);
     setInterval(createFloatingElement, 350);
 });
+document.getElementById("confetti-btn").addEventListener("click", () => {
+    confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.6 } // Explodes beautifully from the button level up
+    });
+});
